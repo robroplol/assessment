@@ -1,5 +1,5 @@
 <div>
-    <select name="" id="" wire:model="selectedBrands">
+    <select name="" id="" wire:model="selectedBrands" class="mb-4">
         <option value="0">All Brands</option>
         @foreach ($brands as $brand)
             <option value="{{$brand->id}}">{{$brand->name}}</option>
@@ -7,7 +7,7 @@
     </select>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8">
         @if (count($stores) == 0)
-            <h2>You don't have any stores for this brand.</h2>
+            <h2 class="text-3xl text-center">You don't have any stores for this brand.</h2>
         @else
         @foreach ($stores as $store)
             @foreach($store->journals as $journal)

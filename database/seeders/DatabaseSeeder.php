@@ -33,15 +33,19 @@ class DatabaseSeeder extends Seeder
             Brand::create(['name' => $brand['name'], 'color' => $brand['color'], 'logo_file' => $brand['logo_file']]);
         }
         
-        $user = User::factory(2)->has(
-            Store::factory()->count(5)->state(new Sequence(
-                fn ($sequence) => ['brand_id' => Brand::all()->random()],
-            ))->has(
-                Journal::factory()->count(12)->state( new Sequence(
-                    fn ($sequence) => ['date' => Carbon::now()->sub($sequence->index, 'day')->format('Y-m-d')],
-                ))
-            )
-        )->create();
+        $users = User::factory(3)->create();
+        foreach ($users as $user) {
+           Store::factory()->count(3)->for($user)->state(new Sequence(
+            fn ($sequence) => ['brand_id' => Brand::all()->random()],
+        ))->create();
+        }
+        
+        $stores = Store::all();
+        foreach ($stores as $store) {
+            Journal::factory()->count(15)->for($store)->state( new Sequence(
+                fn ($sequence) => ['date' => Carbon::now()->sub($sequence->index, 'day')->format('Y-m-d')],
+            ))->create();
+        }
 
         $first_user = User::first();
         $first_user->update([

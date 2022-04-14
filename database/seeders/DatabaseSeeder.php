@@ -12,6 +12,8 @@ use App\Models\Store;
 use App\Models\Journal;
 use App\Models\Brand;
 
+use Carbon\Carbon;
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -34,7 +36,11 @@ class DatabaseSeeder extends Seeder
         $user = User::factory(2)->has(
             Store::factory()->count(5)->state(new Sequence(
                 fn ($sequence) => ['brand_id' => Brand::all()->random()],
-            ))->hasJournals(10)
+            ))->has(
+                Journal::factory()->count(12)->state( new Sequence(
+                    fn ($sequence) => ['date' => Carbon::now()->sub($sequence->index, 'day')->format('Y-m-d')],
+                ))
+            )
         )->create();
 
         $first_user = User::first();

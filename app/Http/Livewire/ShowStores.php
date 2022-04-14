@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Response;
 use App\Models\Store;
 use App\Models\Brand;
 use App\Models\Journal;
+use Carbon\Carbon;
 
 class ShowStores extends Component
 {
@@ -66,6 +67,7 @@ class ShowStores extends Component
         $this->user=Auth::user();
         $this->stores = Store::where('user_id', $this->user->id)->get();
         $this->brands = Brand::all();
+        //dd(Carbon::now()->sub(1, 'day')->format('Y-m-d'));
     }
 
     public function render()
